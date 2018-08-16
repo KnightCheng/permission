@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.alibaba.com/schema/stat http://www.alibaba.com/schema/stat.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 <!--spring 相关配置-->
     <!--变量占位-->
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -14,17 +14,42 @@
     </bean>
 
 
-    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-        <property name="driverClassName" value="${db.driverClassName}"/>
-        <property name="url" value="${db.url}"/>
-        <property name="username" value="${db.username}"/>
-        <property name="password" value="${db.password}"/>
-        <property name="initialSize" value="3"/>
-        <property name="minIdle" value="3"/>
-        <property name="maxActive" value="20"/>
-        <property name="maxWait" value="6000"/>
-        <property name="filters" value="stat,wall"/>
-     </bean>
+    <!--<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">-->
+        <!--<property name="driverClassName" value="${db.driverClassName}"/>-->
+        <!--<property name="url" value="${db.url}"/>-->
+        <!--<property name="username" value="${db.username}"/>-->
+        <!--<property name="password" value="${db.password}"/>-->
+        <!--<property name="initialSize" value="3"/>-->
+        <!--<property name="minIdle" value="3"/>-->
+        <!--<property name="maxActive" value="20"/>-->
+        <!--<property name="maxWait" value="6000"/>-->
+        <!--<property name="filters" value="stat,wall"/>-->
+     <!--</bean>-->
+    <!--<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">-->
+        <!--<property name="driverClassName" value="${db.driverClassName}" />-->
+        <!--<property name="url" value="${db.url}" />-->
+        <!--<property name="username" value="${db.username}" />-->
+        <!--<property name="password" value="${db.password}" />-->
+        <!--<property name="initialSize" value="3" />-->
+        <!--<property name="minIdle" value="3" />-->
+        <!--<property name="maxActive" value="20" />-->
+        <!--<property name="maxWait" value="60000" />-->
+        <!--<property name="filters" value="stat,wall" />-->
+    <!--</bean>-->
+
+    <!-- 数据库连接池 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="maxPoolSize" value="${c3p0.maxPoolSize}"/>
+        <property name="minPoolSize" value="${c3p0.minPoolSize}"/>
+        <property name="autoCommitOnClose" value="${c3p0.autoCommitOnClose}"/>
+        <property name="checkoutTimeout" value="${c3p0.checkoutTimeout}"/>
+        <property name="acquireRetryAttempts" value="${c3p0.acquireRetryAttempts}"/>
+    </bean>
+
 
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -47,14 +72,14 @@
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <!--druid-->
-    <bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
-        <property name="slowSqlMillis" value="3000"/>
-        <property name="logSlowSql" value="true"/>
-        <property name="mergeSql" value="true"/>
-    </bean>
-    <bean id="wall-filter" class="com.alibaba.druid.wall.WallFilter">
-        <property name="dbType" value="mysql"/>
-    </bean>
+    <!--<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">-->
+        <!--<property name="slowSqlMillis" value="3000"/>-->
+        <!--<property name="logSlowSql" value="true"/>-->
+        <!--<property name="mergeSql" value="true"/>-->
+    <!--</bean>-->
+    <!--<bean id="wall-filter" class="com.alibaba.druid.wall.WallFilter">-->
+        <!--<property name="dbType" value="mysql"/>-->
+    <!--</bean>-->
 
 
 </beans>
